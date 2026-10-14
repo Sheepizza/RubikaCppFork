@@ -61,6 +61,7 @@ public:
 	bool LoadTexture(const std::filesystem::path& path);
 
 	AnimationData LoadAnimationData(rapidxml::xml_node<>* root);
+	StaticTileData LoadStaticData(rapidxml::xml_node<>* root);
 	/*
 	 * Returns the corresponding TextureData using the name of the texture. Returns the default TextureData in case of an unknown name
 	 */

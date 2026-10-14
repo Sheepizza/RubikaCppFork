@@ -16,7 +16,15 @@ TextureData::~TextureData()
 
 void TextureMgr::Init()
 {
+	LoadTexture("../Ressources/Basement");
+	LoadTexture("../Ressources/Antonio_Belpaese");
+	LoadTexture("../Ressources/enemy_texture_1");
+	LoadTexture("../Ressources/enemy_texture_2");
+	LoadTexture("../Ressources/enemy_texture_3");
+	LoadTexture("../Ressources/enemy_texture_4");
+	LoadTexture("../Ressources/enemy_texture_5");
 	LoadTexture("../Ressources/IsaacSprite");
+
 	CreateDefaultTexture();
 }
 
@@ -53,6 +61,19 @@ bool TextureMgr::LoadTexture(const std::filesystem::path& path)
 			AnimationData data = LoadAnimationData(node);
 			textureData.AnimationsData.emplace(node->first_attribute()->value(), data);
 		}
+	}
+	else if (rootName == "Backgrounds")
+	{
+		for (xml_node<>* node = root->first_node(); node; node = node->next_sibling())
+		{
+			StaticTileData data = LoadStaticData(node);
+			textureData.StaticTilesData.emplace(node->first_attribute()->value(), data);
+		}
+	}
+	else
+	{
+		Logger::Error(std::format("Root name : {} in {}.xml is incorrect (Should be Animations or Backgrounds.", rootName, path.filename().string()));
+		return false;
 	}
 
 	std::string texturePath = path.string() += ".png";
@@ -125,12 +146,51 @@ AnimationData TextureMgr::LoadAnimationData(xml_node<>* root)
 	return *data;
 }
 
+StaticTileData TextureMgr::LoadStaticData(rapidxml::xml_node<>* root)
+{
+	StaticTileData* data = new StaticTileData();
+
+	for (xml_node<>* childNode = root->first_node(); childNode; childNode = childNode->next_sibling())
+	{
+		std::string name = childNode->name();
+
+		if (name == "X")
+		{
+			data->StartX = std::stoi(childNode->value());
+		}
+		else if (name == "Y")
+		{
+			data->StartY = std::stoi(childNode->value());
+		}
+		else if (name == "SizeX")
+		{
+			data->SizeX = std::stoi(childNode->value());
+		}
+		else if (name == "SizeY")
+		{
+			data->SizeY = std::stoi(childNode->value());
+		}
+		else if (name == "RevertedX")
+		{
+			data->IsRevertedX = std::stoi(childNode->value()) == 1;
+		}
+		else if (name == "RevertedY")
+		{
+			data->IsRevertedY = std::stoi(childNode->value()) == 1;
+		}
+	}
+
+	return *data;
+}
+
 const TextureData& TextureMgr::GetTextureData(const std::string& name) const
 {
 	if (TexturesData.contains(name)) 
 	{
 		return TexturesData.at(name);
 	}
+	
+	Logger::Error(std::format("Can't find texture named {}.", name));
 
 	return TexturesData.at("Default");
 }

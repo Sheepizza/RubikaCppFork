@@ -54,6 +54,14 @@ std::string Scene::GetEntities()
 	return text;
 }
 
+void Scene::Draw(sf::RenderWindow& window) const
+{
+	for (Entity* entity : Entities)
+	{
+		entity->Draw(window);
+	}
+}
+
 void Scene::Start() 
 {
 
@@ -61,7 +69,10 @@ void Scene::Start()
 
 void Scene::Update(float fDeltaTime)
 {
-
+	for (Entity* entity : Entities)
+	{
+		entity->Update(fDeltaTime);
+	}
 }
 
 void Scene::Destroy() 

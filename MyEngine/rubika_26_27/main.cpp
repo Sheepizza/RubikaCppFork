@@ -1,3 +1,5 @@
+#include <Entity.h>
+
 #include <SFML/Graphics.hpp>
 #include <Imgui/imgui.h>
 #include <Imgui/imgui-SFML.h>
@@ -33,20 +35,20 @@ int main()
     gData.SceneMgr->AddNewScene(testScene3);
     gData.SceneMgr->AddNewScene(testScene4);
 
-    gData.SceneMgr->SetActiveScene("TestScene3");
-    gData.SceneMgr->SetActiveScene("TestScene2");
+    gData.SceneMgr->SetActiveScene("TestScene");
 
     gData.Init();
 
-    TextureData textureData = gData.TextureMgr->GetTextureData("IsaacSprite");
+    //TextureData textureData = gData.TextureMgr->GetTextureData("IsaacSprite");
 
-    sf::Texture texture = textureData.Texture;
+    //sf::Texture texture = textureData.Texture;
 
-    sf::Sprite sprite(texture);
+    //sf::Sprite sprite(texture);
 
-    AnimationData data = textureData.AnimationsData.at("Head_Down");
+    //AnimationData data = textureData.AnimationsData.at("Head_Right_Red");
+    //StaticTileData data = textureData.StaticTilesData.at("Wall_Classic_Left");
 
-    sprite.setTextureRect({ {data.StartX, data.StartY}, {data.SizeX, data.SizeY} });
+    //sprite.setTextureRect({ {data.StartX, data.StartY}, {data.SizeX, data.SizeY} });
 
     sf::RenderWindow window(sf::VideoMode({ 1080, 720 }), "SFML works!", sf::State::Windowed);
 
@@ -104,7 +106,8 @@ int main()
 #ifdef _USE_IMGUI
         ImGui::SFML::Render(window);
 #endif
-        window.draw(sprite);
+        gData.SceneMgr->ActiveScene->Update(0.1f);
+        gData.SceneMgr->ActiveScene->Draw(window);
 
         window.display();
 
