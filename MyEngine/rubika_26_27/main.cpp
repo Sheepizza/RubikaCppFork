@@ -6,10 +6,47 @@
 #include <Profiler.h>
 #include <Logger.h>
 #include <DebugMgr.h>
+#include <Scene.h>
+#include <SceneMgr.h>
+#include <TextureMgr.h>
 
 int main()
 {
+    Entity toto = Entity("Toto");
+    Entity tata = Entity("Tata");
+    Entity titi = Entity("Titi");
+
+    Scene testScene = Scene("TestScene");
+    Scene testScene2 = Scene("TestScene2");
+    Scene testScene3 = Scene("TestScene3");
+    Scene testScene4 = Scene("TestScene4");
+
+    testScene.AddEntity(&toto);
+    testScene3.AddEntity(&toto);
+    testScene.AddEntity(&tata);
+    testScene2.AddEntity(&tata);
+    testScene.AddEntity(&titi);
+    testScene3.AddEntity(&titi);
+
+    gData.SceneMgr->AddNewScene(testScene);
+    gData.SceneMgr->AddNewScene(testScene2);
+    gData.SceneMgr->AddNewScene(testScene3);
+    gData.SceneMgr->AddNewScene(testScene4);
+
+    gData.SceneMgr->SetActiveScene("TestScene3");
+    gData.SceneMgr->SetActiveScene("TestScene2");
+
     gData.Init();
+
+    TextureData textureData = gData.TextureMgr->GetTextureData("IsaacSprite");
+
+    sf::Texture texture = textureData.Texture;
+
+    sf::Sprite sprite(texture);
+
+    AnimationData data = textureData.AnimationsData.at("Head_Down");
+
+    sprite.setTextureRect({ {data.StartX, data.StartY}, {data.SizeX, data.SizeY} });
 
     sf::RenderWindow window(sf::VideoMode({ 1080, 720 }), "SFML works!", sf::State::Windowed);
 
@@ -67,11 +104,14 @@ int main()
 #ifdef _USE_IMGUI
         ImGui::SFML::Render(window);
 #endif
+        window.draw(sprite);
+
         window.display();
 
         PROFILER_EVENT_END();
 
         PROFILER_EVENT_END();
+
     }
 
     ImGui::SFML::Shutdown();

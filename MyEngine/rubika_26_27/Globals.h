@@ -1,5 +1,7 @@
 #pragma once
 
+class TextureMgr;
+class SceneMgr;
 class DebugMgr;
 class Logger;
 
@@ -17,6 +19,8 @@ public:
 
 	unsigned long long FrameCount;
 
+	TextureMgr* TextureMgr;
+	SceneMgr* SceneMgr;
 	DebugMgr* DebugMgr;
 	Logger* Logger;
 };

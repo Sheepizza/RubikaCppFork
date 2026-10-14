@@ -4,6 +4,9 @@
 
 #include <filesystem>
 #include <string>
+#include <map>
+#include <rapidxml/rapidxml.hpp>
+#include <rapidxml/rapidxml_utils.hpp>
 
 struct AnimationData
 {
@@ -35,8 +38,8 @@ struct TextureData
 	~TextureData();
 
 	sf::Texture Texture;
-	// Container of AnimationData AnimationsData;
-	// Container of StaticTileData StaticTilesData;
+	std::map<std::string, AnimationData> AnimationsData;
+	std::map<std::string, StaticTileData> StaticTilesData;
 
 	friend class TextureMgr;
 };
@@ -44,6 +47,8 @@ struct TextureData
 class TextureMgr final
 {
 public:
+	std::map <std::string, TextureData> TexturesData;
+
 	void Init();
 	void Shut();
 
@@ -55,8 +60,11 @@ public:
 	*/
 	bool LoadTexture(const std::filesystem::path& path);
 
+	AnimationData LoadAnimationData(rapidxml::xml_node<>* root);
 	/*
 	 * Returns the corresponding TextureData using the name of the texture. Returns the default TextureData in case of an unknown name
 	 */
 	const TextureData& GetTextureData(const std::string& name) const;
+
+	void CreateDefaultTexture();
 };
