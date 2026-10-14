@@ -209,13 +209,9 @@
     <ClCompile Include="..\Dependencies\Imgui\imgui_tables.cpp" />
     <ClCompile Include="..\Dependencies\Imgui\imgui_widgets.cpp" />
     <ClCompile Include="DebugMgr.cpp" />
-    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneMgr.cpp" />
-    <ClCompile Include="TextureMgr.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -242,7 +238,6 @@
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Profiler.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="SceneMgr.h" />
     <ClInclude Include="TextureMgr.h" />
     <ClInclude Include="TransformComponent.h" />
   </ItemGroup>
