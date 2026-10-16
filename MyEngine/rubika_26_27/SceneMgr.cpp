@@ -21,6 +21,26 @@ void SceneMgr::Shut()
 void SceneMgr::DrawDebug()
 {
 #ifdef _USE_IMGUI
+
+	int id = 0;
+
+	ImGui::PushID(id);
+
+	static char str[32] = "";
+	ImGui::InputText("", str, sizeof(str));
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Add Scene"))
+	{
+		Scene newScene = Scene(str);
+		gData.SceneMgr->AddNewScene(newScene);
+	}
+
+	ImGui::PopID();
+
+	id++;
+
 	if (ImGui::BeginTable("Logs##LogConsole", 3, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_Borders))
 	{
 		ImGui::TableSetupColumn("Scene");
@@ -28,8 +48,6 @@ void SceneMgr::DrawDebug()
 		ImGui::TableSetupColumn("Actions");
 		ImGui::TableHeadersRow();
 		ImGui::TableNextRow();
-
-		int id = 0;
 
 		for (auto& kv : Scenes)
 		{
@@ -53,12 +71,18 @@ void SceneMgr::DrawDebug()
 				SetActiveScene(scene->Name);
 			ImGui::PopID();
 
-			id++;
-
 			ImGui::PushID(id);
+
+			static char eStr[32] = "";
+			ImGui::InputText("", eStr, sizeof(eStr));
+
+			ImGui::SameLine();
+
 			if (ImGui::Button("Add Entity"))
-				scene->CreateEntity();
+				scene->CreateEntity(eStr);
 			ImGui::PopID();
+
+			id++;
 
 			ImGui::TableNextRow();
 		}
@@ -70,6 +94,12 @@ void SceneMgr::DrawDebug()
 
 void SceneMgr::AddNewScene(Scene& scene)
 {
+	if (scene.Name == "")
+	{
+		Logger::Warning("Scene's name can't be null.");
+		return;
+	}
+
 	if (Scenes.contains(scene.Name))
 	{
 		Logger::Warning(std::format("The name {} is already used.", scene.Name));

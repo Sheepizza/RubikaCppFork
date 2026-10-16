@@ -26,7 +26,7 @@ public:
 	void AddEntity(Entity* entity);
 	void RemoveEntity(Entity* entity);
 
-	void CreateEntity();
+	void CreateEntity(char* input);
 
 	std::string GetEntities();
 

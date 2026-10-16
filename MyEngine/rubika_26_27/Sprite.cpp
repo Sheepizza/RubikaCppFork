@@ -1,5 +1,10 @@
 #include "Sprite.h"
 
+Sprite::Sprite() : sprite(texture)
+{
+	
+}
+
 void Sprite::Start()
 {
 

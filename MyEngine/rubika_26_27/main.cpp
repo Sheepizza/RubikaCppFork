@@ -11,44 +11,34 @@
 #include <Scene.h>
 #include <SceneMgr.h>
 #include <TextureMgr.h>
+#include <RenderComponent.h>
+#include <Sprite.h>
+#include <Rectangle.h>
+
+void CreateScene()
+{
+    Scene mainScene = Scene("MainScene");
+
+    Entity* ground = new Entity("Static");
+
+    mainScene.AddEntity(ground);
+
+    gData.SceneMgr->AddNewScene(mainScene);
+
+    gData.SceneMgr->SetActiveScene("MainScene");
+
+    RenderComponent* r = ground->AddComponent<RenderComponent>();
+
+    StaticTile* staticTile = r->AddDrawable<StaticTile>();
+
+    staticTile->SetTextureAndStaticTile("Basement", "Corner_Top_Left");
+}
 
 int main()
 {
-    Entity toto = Entity("Toto");
-    Entity tata = Entity("Tata");
-    Entity titi = Entity("Titi");
-
-    Scene testScene = Scene("TestScene");
-    Scene testScene2 = Scene("TestScene2");
-    Scene testScene3 = Scene("TestScene3");
-    Scene testScene4 = Scene("TestScene4");
-
-    testScene.AddEntity(&toto);
-    testScene3.AddEntity(&toto);
-    testScene.AddEntity(&tata);
-    testScene2.AddEntity(&tata);
-    testScene.AddEntity(&titi);
-    testScene3.AddEntity(&titi);
-
-    gData.SceneMgr->AddNewScene(testScene);
-    gData.SceneMgr->AddNewScene(testScene2);
-    gData.SceneMgr->AddNewScene(testScene3);
-    gData.SceneMgr->AddNewScene(testScene4);
-
-    gData.SceneMgr->SetActiveScene("TestScene");
-
     gData.Init();
 
-    //TextureData textureData = gData.TextureMgr->GetTextureData("IsaacSprite");
-
-    //sf::Texture texture = textureData.Texture;
-
-    //sf::Sprite sprite(texture);
-
-    //AnimationData data = textureData.AnimationsData.at("Head_Right_Red");
-    //StaticTileData data = textureData.StaticTilesData.at("Wall_Classic_Left");
-
-    //sprite.setTextureRect({ {data.StartX, data.StartY}, {data.SizeX, data.SizeY} });
+    CreateScene();
 
     sf::RenderWindow window(sf::VideoMode({ 1080, 720 }), "SFML works!", sf::State::Windowed);
 

@@ -1,4 +1,6 @@
 #include "IDrawable.h"
+#include <Logger.h>
+#include <format>
 
 IDrawable::IDrawable() : Visible(true), WorldTransform(sf::Transform::Identity), Drawable(nullptr)
 {}

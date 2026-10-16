@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <DebugMgr.h>
 
 class Entity;
 

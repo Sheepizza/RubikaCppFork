@@ -1,41 +1,51 @@
 #include "Rectangle.h"
 #include <Logger.h>
+#include <Globals.h>
 
-Rectangle::Rectangle()
+StaticTile::StaticTile()
 {
-	Drawable = &rectangle;
+	
+}
+
+void StaticTile::Start()
+{
+}
+
+void StaticTile::Update(float deltaTime)
+{
+	
+}
+
+void StaticTile::Destroy()
+{
+
+}
+
+bool StaticTile::SetTexture(const TextureData& textureData)
+{
 	rectangle.setSize(sf::Vector2f(100, 100));
-	rectangle.setFillColor(sf::Color::Cyan);
 
-	limitMin = Vector2(0, 0);
-	limitMax = Vector2(1000, 600);
-	direction = Vector2(1, 1);
+	rectangle.setTexture(&textureData.Texture);
+
+	return true;
 }
 
-void Rectangle::Start()
+bool StaticTile::SetStaticTile(const StaticTileData& staticData)
 {
-
+	rectangle.setTextureRect({ {staticData.StartX, staticData.StartY}, {staticData.SizeX, staticData.SizeY} });
+	return false;
 }
 
-void Rectangle::Update(float deltaTime)
+bool StaticTile::SetTextureAndStaticTile(const std::string& textureName, const std::string& staticTileName)
 {
-	sf::Vector2f v2Pos = rectangle.getPosition();
+	const TextureData& textureData = gData.TextureMgr->GetTextureData(textureName);
 
-	if (v2Pos.x > limitMax.x || v2Pos.x < limitMin.x)
-	{
-		direction.x *= -1;
-	}
-	if (v2Pos.y > limitMax.y || v2Pos.y < limitMin.y)
-	{
-		direction.y *= -1;
-	}
+	const StaticTileData& staticTileData = textureData.StaticTilesData.at(staticTileName);
 
-	sf::Vector2f v(0.6 * deltaTime * direction.x, 0.85 * deltaTime * direction.y);
+	SetTexture(textureData);
+	SetStaticTile(staticTileData);
 
-	rectangle.move(v);
-}
+	Drawable = &rectangle;
 
-void Rectangle::Destroy()
-{
-
+	return false;
 }

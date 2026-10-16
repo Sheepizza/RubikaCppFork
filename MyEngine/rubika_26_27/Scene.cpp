@@ -12,6 +12,7 @@ Scene::~Scene()
 
 void Scene::AddEntity(Entity* entity) 
 {
+	Logger::Info(std::format("Entity {} loaded in {}.", entity->Name, Name));
 	Entities.push_back(entity);
 }
 
@@ -30,10 +31,17 @@ void Scene::RemoveEntity(Entity* entity)
 	Logger::Error("Entity not in range.");
 }
 
-void Scene::CreateEntity()
+void Scene::CreateEntity(char* input)
 {
-	Entity* entity = new Entity("Entity");
+	if (!input[0])
+	{
+		Logger::Warning("You didn't give a name to the entity.");
+		return;
+	}
+
+	Entity* entity = new Entity(input);
 	AddEntity(entity);
+	entity->Start();
 }
 
 
@@ -64,7 +72,10 @@ void Scene::Draw(sf::RenderWindow& window) const
 
 void Scene::Start() 
 {
-
+	for (Entity* entity : Entities)
+	{
+		entity->Start();
+	}
 }
 
 void Scene::Update(float fDeltaTime)

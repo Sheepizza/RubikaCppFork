@@ -6,7 +6,11 @@
 class Sprite : public IDrawable
 {
 public:
+
 	sf::Sprite sprite;
+	sf::Texture texture;
+
+	Sprite();
 
 	void Start();
 	void Update(float deltaTime);
