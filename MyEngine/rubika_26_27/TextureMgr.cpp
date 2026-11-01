@@ -129,7 +129,7 @@ AnimationData TextureMgr::LoadAnimationData(xml_node<>* root)
 		{
 			data->AnimationSpriteCount = std::stoi(childNode->value());
 		}
-		else if (name == "SpriteOnLine")
+		else if (name == "SpritesOnLine")
 		{
 			data->SpriteOnLine = std::stoi(childNode->value());
 		}

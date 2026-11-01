@@ -17,7 +17,6 @@ public:
 
 	bool SetTextureAndStaticTile(const std::string& textureName, const std::string& staticTileName);
 
-
 private:
 	bool SetTexture(const TextureData& textureData);
 	bool SetStaticTile(const StaticTileData& staticData);

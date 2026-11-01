@@ -16,6 +16,7 @@ public:
 	void Destroy();
 
 	void IncrementFrameCount();
+	unsigned long long GetFrameCount();
 
 	unsigned long long FrameCount;
 

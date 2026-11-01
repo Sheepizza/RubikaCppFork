@@ -29,16 +29,20 @@ void CreateScene()
 
     RenderComponent* r = ground->AddComponent<RenderComponent>();
 
-    StaticTile* staticTile = r->AddDrawable<StaticTile>();
+    Sprite* sprite = r->AddDrawable<Sprite>();
 
-    staticTile->SetTextureAndStaticTile("Basement", "Corner_Top_Left");
+    sprite->SetTextureAndSprite("IsaacSprite", "Body_Right");
+
+    /*StaticTile* staticTile = r->AddDrawable<StaticTile>();
+
+    staticTile->SetTextureAndStaticTile("Basement", "Corner_Top_Left");*/
 }
 
 int main()
 {
     gData.Init();
 
-    CreateScene();
+    //CreateScene();
 
     sf::RenderWindow window(sf::VideoMode({ 1080, 720 }), "SFML works!", sf::State::Windowed);
 
@@ -96,8 +100,14 @@ int main()
 #ifdef _USE_IMGUI
         ImGui::SFML::Render(window);
 #endif
-        gData.SceneMgr->ActiveScene->Update(0.1f);
-        gData.SceneMgr->ActiveScene->Draw(window);
+
+        float deltaT = clock.getElapsedTime().asSeconds();
+
+        if (gData.SceneMgr->ActiveScene != nullptr)
+        {
+            gData.SceneMgr->ActiveScene->Update(deltaT);
+            gData.SceneMgr->ActiveScene->Draw(window);
+        }
 
         window.display();
 

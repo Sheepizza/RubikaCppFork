@@ -28,7 +28,5 @@ inline C* RenderComponent::GetDrawable()
 		}
 	}
 
-	Logger::Warning(std::format("The Drawable {} doesn't exist.", typeid(C).name()));
-
 	return nullptr;
 }

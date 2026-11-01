@@ -2,6 +2,7 @@
 #include <TransformComponent.h>
 #include <RenderComponent.h>
 #include <Logger.h>
+#include <Sprite.h>
 
 Entity::Entity(std::string name)
 {
@@ -20,12 +21,18 @@ void Entity::Start()
 
 void Entity::Update(float fDeltaTime)
 {
+	TransformComponent* t = GetComponent<TransformComponent>();
+
+	if (t != nullptr)
+	{
+		t->Update(fDeltaTime);
+	}
+
 	RenderComponent* r = GetComponent<RenderComponent>();
 
-	if (r == nullptr)
+	if (r != nullptr)
 	{
-		Logger::Warning(std::format("Failed to update {}, Render Component is null", Name));
-		return;
+		r->Update(fDeltaTime);
 	}
 }
 

@@ -14,7 +14,14 @@ public:
 	Scene* ActiveScene;
 
 	void AddNewScene(Scene& scene);
+	void DeleteScene(std::string name);
 	void SetActiveScene(std::string name);
+	void AddTransformComponent(Entity& entity);
+	void AddRenderComponent(Entity& entity);
+
+	void AddSprite(Entity& entity);
+	void AddStaticTile(Entity& entity);
+	void SetTexture(Entity& entity, std::string txtName, std::string dataName);
 
 	void DeleteScenes();
 

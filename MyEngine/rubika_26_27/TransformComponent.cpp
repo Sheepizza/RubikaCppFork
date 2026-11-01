@@ -67,7 +67,11 @@ void TransformComponent::Start()
 {}
 
 void TransformComponent::Update(float fDeltaTime)
-{}
+{
+	sf::Vector2f newPos = { GetWorldPosition().x + fDeltaTime * 3, 0 };
+	
+	SetWorldPosition(newPos);
+}
 
 void TransformComponent::Destroy()
 {}

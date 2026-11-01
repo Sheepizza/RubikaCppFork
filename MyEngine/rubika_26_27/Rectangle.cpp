@@ -33,7 +33,12 @@ bool StaticTile::SetTexture(const TextureData& textureData)
 bool StaticTile::SetStaticTile(const StaticTileData& staticData)
 {
 	rectangle.setTextureRect({ {staticData.StartX, staticData.StartY}, {staticData.SizeX, staticData.SizeY} });
-	return false;
+	
+	rectangle.setOrigin({ rectangle.getSize().x * (staticData.IsRevertedX ? 1 : 0), rectangle.getSize().y * (staticData.IsRevertedY ? 1 : 0) });
+
+	rectangle.setScale({ staticData.IsRevertedX ? -1.f : 1.f, staticData.IsRevertedY ? -1.f : 1.f });
+
+	return true;
 }
 
 bool StaticTile::SetTextureAndStaticTile(const std::string& textureName, const std::string& staticTileName)
@@ -47,5 +52,5 @@ bool StaticTile::SetTextureAndStaticTile(const std::string& textureName, const s
 
 	Drawable = &rectangle;
 
-	return false;
+	return true;
 }

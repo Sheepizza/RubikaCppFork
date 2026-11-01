@@ -47,3 +47,9 @@ void Globals::IncrementFrameCount()
 {
 	++FrameCount;
 }
+
+unsigned long long Globals::GetFrameCount()
+{
+	return FrameCount;
+}
+
