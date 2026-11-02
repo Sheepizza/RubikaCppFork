@@ -11,46 +11,79 @@
 #include <Scene.h>
 #include <SceneMgr.h>
 #include <TextureMgr.h>
+#include <InputMgr.h>
 #include <RenderComponent.h>
+#include <TransformComponent.h>
 #include <Sprite.h>
 #include <Rectangle.h>
+
+void CreateInputs(Entity* e)
+{
+    TransformComponent* t = e->AddComponent<TransformComponent>();
+
+    gData.InputMgr->CreateInputAction("Up");
+    gData.InputMgr->BindAction("Up", sf::Keyboard::Key::Z);
+    auto up = [e](float input) {e->Move(0, -0.2f * input); };
+    std::function<void(float)> MoveUp = up;
+    gData.InputMgr->RegisterCallback("Up", "Move Up", MoveUp, e);
+
+    gData.InputMgr->CreateInputAction("Down");
+    gData.InputMgr->BindAction("Down", sf::Keyboard::Key::S);
+    auto down = [e](float input) {e->Move(0, 0.2f * input); };
+    std::function<void(float)> MoveDown = down;
+    gData.InputMgr->RegisterCallback("Down", "Move Down", MoveDown, e);
+
+    gData.InputMgr->CreateInputAction("Right");
+    gData.InputMgr->BindAction("Right", sf::Keyboard::Key::D);
+    auto right = [e](float input) {e->Move(0.2f * input, 0); };
+    std::function<void(float)> MoveRight = right;
+    gData.InputMgr->RegisterCallback("Right", "Move Right", MoveRight, e);
+
+    gData.InputMgr->CreateInputAction("Left");
+    gData.InputMgr->BindAction("Left", sf::Keyboard::Key::Q);
+    auto left = [e](float input) {e->Move(-0.2f * input, 0); };
+    std::function<void(float)> MoveLeft = left;
+    gData.InputMgr->RegisterCallback("Left", "Move Left", MoveLeft, e);
+}
 
 void CreateScene()
 {
     Scene mainScene = Scene("MainScene");
 
-    Entity* ground = new Entity("Static");
+    Entity* e = new Entity("Isaac");
 
-    mainScene.AddEntity(ground);
+    mainScene.AddEntity(e);
 
     gData.SceneMgr->AddNewScene(mainScene);
 
     gData.SceneMgr->SetActiveScene("MainScene");
 
-    RenderComponent* r = ground->AddComponent<RenderComponent>();
+    RenderComponent* r = e->AddComponent<RenderComponent>();
 
     Sprite* sprite = r->AddDrawable<Sprite>();
 
-    sprite->SetTextureAndSprite("IsaacSprite", "Body_Right");
+    sprite->SetTextureAndSprite("IsaacSprite", "Body_Vertical");
 
     /*StaticTile* staticTile = r->AddDrawable<StaticTile>();
 
     staticTile->SetTextureAndStaticTile("Basement", "Corner_Top_Left");*/
+
+    CreateInputs(e);
 }
 
 int main()
 {
     gData.Init();
 
-    //CreateScene();
+    CreateScene();
 
     sf::RenderWindow window(sf::VideoMode({ 1080, 720 }), "SFML works!", sf::State::Windowed);
 
     ImGui::SFML::Init(window);
 
-    Logger::Info("This is an info message. That is useful");
+    /*Logger::Info("This is an info message. That is useful");
     Logger::Warning("This is a warning message. Should I worry?");
-    Logger::Error("This is an error message. Oh sh*t!!");
+    Logger::Error("This is an error message. Oh sh*t!!");*/
 
     sf::Clock clock;
     clock.restart();
@@ -86,7 +119,6 @@ int main()
 #ifdef _USE_IMGUI
         ImGui::SFML::Update(window, imGuiTime);
 #endif
-
         // sample
         //ImGui::ShowDemoWindow();
         //Logger::DrawLogger();
@@ -102,6 +134,8 @@ int main()
 #endif
 
         float deltaT = clock.getElapsedTime().asSeconds();
+
+        gData.InputMgr->Update(deltaT);
 
         if (gData.SceneMgr->ActiveScene != nullptr)
         {

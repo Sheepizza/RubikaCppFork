@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <string>
+#include <vector>
 
 class InputAction
 {
@@ -12,6 +13,10 @@ public:
 	void SetValue(float value);
 	void RegisterCallback(const std::string& debugName, std::function<void(float)> callback, void* owner);
 	void UnregisterCallbacks(void* owner);
+
+	std::size_t GetActionNameHash();
+	std::string GetActionName();
+	float GetValue();
 
 private:
 	struct sCallbackInfo
@@ -24,5 +29,7 @@ private:
 	std::string ActionName;
 	std::size_t ActionNameHash;
 	float Value = 0.f;
-	container<sCallbackInfo> Callbacks
+	std::vector<sCallbackInfo> Callbacks;
+
+	void InvokeCallbacks();
 };

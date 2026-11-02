@@ -41,13 +41,23 @@ void Entity::Destroy()
 
 }
 
+void Entity::Move(float x, float y)
+{
+	TransformComponent* t = GetComponent<TransformComponent>();
+
+	if (t != nullptr)
+	{
+		t->SetWorldPosition({ t->GetWorldPosition().x + x, t->GetWorldPosition().y + y });
+	}
+}
+
 void Entity::Draw(sf::RenderWindow& window)
 {
 	RenderComponent* r = GetComponent<RenderComponent>();
 
 	if (r == nullptr)
 	{
-		Logger::Warning(std::format("Failed to draw {}, Render Component is null", Name));
+		//Logger::Warning(std::format("Failed to draw {}, Render Component is null", Name));
 		return;
 	}
 

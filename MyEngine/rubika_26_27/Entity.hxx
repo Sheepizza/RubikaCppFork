@@ -37,6 +37,6 @@ inline C* Entity::GetComponent()
 		}
 	}
 
-	Logger::Warning(std::format("The Component {} doesn't exist in {}.", typeid(C).name(), Name));
+	//Logger::Warning(std::format("The Component {} doesn't exist in {}.", typeid(C).name(), Name));
 	return nullptr;
 }

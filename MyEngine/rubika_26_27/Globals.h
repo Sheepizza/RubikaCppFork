@@ -4,6 +4,7 @@ class TextureMgr;
 class SceneMgr;
 class DebugMgr;
 class Logger;
+class InputMgr;
 
 class Globals
 {
@@ -20,6 +21,7 @@ public:
 
 	unsigned long long FrameCount;
 
+	InputMgr* InputMgr;
 	TextureMgr* TextureMgr;
 	SceneMgr* SceneMgr;
 	DebugMgr* DebugMgr;

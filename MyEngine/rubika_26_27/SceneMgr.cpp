@@ -4,12 +4,12 @@
 #include <RenderComponent.h>
 #include <Rectangle.h>
 #include <Sprite.h>
+#include <Globals.h>
 
 #include <format>
 
 #ifdef _USE_IMGUI
 #include <Imgui/imgui.h>
-#include <Globals.h>
 #endif
 
 void SceneMgr::Init()
