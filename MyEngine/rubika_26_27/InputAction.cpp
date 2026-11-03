@@ -16,7 +16,11 @@ void InputAction::SetValue(float value)
 	//Logger::Info(std::format("Action {} invoked.", ActionName));
 
 	Value = value;
-	InvokeCallbacks();
+
+	if (Value != 0.f)
+	{
+		InvokeCallbacks();
+	}
 }
 
 void InputAction::RegisterCallback(const std::string& debugName, std::function<void(float)> callback, void* owner)

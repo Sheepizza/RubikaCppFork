@@ -8,23 +8,38 @@ RenderComponent::RenderComponent(Entity& entity) : IComponent(entity)
 
 RenderComponent::~RenderComponent()
 {
+	for (IDrawable* drawable : drawables)
+	{
+		delete drawable;
+	}
+
+	drawables.clear();
 }
 
 void RenderComponent::Start()
-{}
+{
+	transformComponent = GetEntity().GetComponent<TransformComponent>();
+
+	for (IDrawable* drawable : drawables)
+	{
+		drawable->Start();
+	}
+}
 
 void RenderComponent::Update(float fDeltaTime)
 {
-	TransformComponent* t = GetEntity().GetComponent<TransformComponent>();
-
-	for (size_t i = 0; i < drawables.size(); i++)
+	if (transformComponent == nullptr)
 	{
-		if (t != nullptr)
-		{
-			drawables[i]->SetWorldTransform(t->GetMatrix());
-		}
+		transformComponent = GetEntity().GetComponent<TransformComponent>();
+	}
 
-		drawables[i]->Update(fDeltaTime);
+	for (IDrawable* drawable : drawables)
+	{
+		if (transformComponent != nullptr)
+		{
+			drawable->SetWorldTransform(transformComponent->GetMatrix());
+		}
+		drawable->Update(fDeltaTime);
 	}
 }
 
@@ -33,8 +48,8 @@ void RenderComponent::Destroy()
 
 void RenderComponent::Draw(sf::RenderWindow& window)
 {
-	for (size_t i = 0; i < drawables.size(); i++)
+	for (IDrawable* drawable : drawables)
 	{
-		drawables[i]->Draw(window);
+		drawable->Draw(window);
 	}
 }

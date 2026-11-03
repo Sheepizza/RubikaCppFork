@@ -1,5 +1,7 @@
-Up,Down,Right,Left
+Up,Down,Right,Left,DisplayColliders,HideColliders
 Keyboard,25,Up,
 Keyboard,18,Down,
 Keyboard,3,Right,
 Keyboard,16,Left,
+Keyboard,27,DisplayColliders
+Keyboard,28,HideColliders

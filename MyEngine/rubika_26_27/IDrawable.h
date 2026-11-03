@@ -3,11 +3,12 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Transform.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Vector2.hpp>
 
 class IDrawable abstract
 {
 public:
-	IDrawable();
+	IDrawable(int x, int y);
 	virtual ~IDrawable();
 
 	virtual void Start() = 0;
@@ -26,4 +27,5 @@ protected:
 	bool Visible;
 	sf::Transform WorldTransform;
 	sf::Drawable* Drawable; // Pointer to the SFML derived class defined in IDrawable's derived class
+	sf::Vector2f localPosition;
 };

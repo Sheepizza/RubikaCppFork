@@ -63,3 +63,9 @@ unsigned long long Globals::GetFrameCount()
 	return FrameCount;
 }
 
+void Globals::Update(float deltaTime)
+{
+	InputMgr->Update(deltaTime);
+	SceneMgr->Update(deltaTime);
+}
+

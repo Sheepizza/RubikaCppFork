@@ -2,6 +2,7 @@
 #include "Logger.h"
 #include <TransformComponent.h>
 #include <RenderComponent.h>
+#include <DynamicColliderComponent.h>
 #include <Rectangle.h>
 #include <Sprite.h>
 #include <Globals.h>
@@ -20,6 +21,22 @@ void SceneMgr::Init()
 void SceneMgr::Shut()
 {
 	gData.DebugMgr->UnregisterDebugableWindow("SceneManager");
+}
+
+void SceneMgr::Update(float fDeltaTime)
+{
+	if (ActiveScene != nullptr)
+	{
+		ActiveScene->Update(fDeltaTime);
+	}
+}
+
+void SceneMgr::Draw(sf::RenderWindow& window)
+{
+	if (ActiveScene != nullptr)
+	{
+		ActiveScene->Draw(window);
+	}
 }
 
 void SceneMgr::DrawDebug()
@@ -112,7 +129,33 @@ void SceneMgr::DrawDebug()
 				ImGui::Text(entity->Name.c_str());
 				ImGui::TableNextColumn();
 
-				if (ImGui::Button("Add Transform"))
+				DynamicColliderComponent* coll = entity->GetComponent<DynamicColliderComponent>();
+
+				if (coll == nullptr)
+				{
+					if (ImGui::Button("Add Collider"))
+						entity->AddComponent<DynamicColliderComponent>();
+				}
+				else
+				{
+					static float size[2] = { 1.f, 1.f };
+					ImGui::InputFloat2("size", size);
+
+					ImGui::SameLine();
+
+					if (ImGui::Button("Set Size"))
+						coll->SetHitboxSize({ size[0], size[1] });
+
+					static float offset[2] = { 0.f, 0.f };
+					ImGui::InputFloat2("offset", offset);
+
+					ImGui::SameLine();
+
+					if (ImGui::Button("Set Offset"))
+						coll->SetHitboxOffset({ offset[0], offset[1] });
+				}
+
+				/*if (ImGui::Button("Add Transform"))
 					AddTransformComponent(*entity);
 
 				RenderComponent* r = entity->GetComponent<RenderComponent>();
@@ -169,7 +212,7 @@ void SceneMgr::DrawDebug()
 						if (ImGui::Button("Set Texture"))
 							SetTexture(*entity, txtStr, tileStr);
 					}
-				}
+				}*/
 
 				ImGui::TableNextRow();
 
@@ -182,6 +225,21 @@ void SceneMgr::DrawDebug()
 		}
 	}
 #endif
+}
+
+void SceneMgr::DisplayColliders(bool enable)
+{
+	if (ActiveScene != nullptr)
+	{
+		for (Entity* entity : ActiveScene->Entities)
+		{
+			DynamicColliderComponent* coll = entity->GetComponent<DynamicColliderComponent>();
+			if (coll != nullptr)
+			{
+				coll->DisplayColliders(enable);
+			}
+		}
+	}
 }
 
 void SceneMgr::AddNewScene(Scene& scene)
@@ -252,7 +310,7 @@ void SceneMgr::AddSprite(Entity& entity)
 		return;
 	}
 
-	r->AddDrawable<Sprite>();
+	r->AddDrawable<Sprite>(0,0);
 }
 
 void SceneMgr::AddStaticTile(Entity& entity)
@@ -265,7 +323,7 @@ void SceneMgr::AddStaticTile(Entity& entity)
 		return;
 	}
 
-	r->AddDrawable<StaticTile>();
+	r->AddDrawable<StaticTile>(0,0);
 }
 
 void SceneMgr::SetTexture(Entity& entity, std::string txtName, std::string dataName)

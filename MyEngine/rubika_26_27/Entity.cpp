@@ -1,6 +1,7 @@
 #include "Entity.h"
 #include <TransformComponent.h>
 #include <RenderComponent.h>
+#include <DynamicColliderComponent.h>
 #include <Logger.h>
 #include <Sprite.h>
 
@@ -11,55 +12,54 @@ Entity::Entity(std::string name)
 
 Entity::~Entity()
 {
-	//delete GetComponent<RenderComponent>();
-	//delete GetComponent<TransformComponent>();
+	for (IComponent* component : components)
+	{
+		delete component;
+	}
+
+	components.clear();
 }
 
 void Entity::Start()
 {
+	for (IComponent* component : components)
+	{
+		component->Start();
+	}
 }
 
 void Entity::Update(float fDeltaTime)
 {
-	TransformComponent* t = GetComponent<TransformComponent>();
-
-	if (t != nullptr)
+	for (IComponent* component : components)
 	{
-		t->Update(fDeltaTime);
-	}
-
-	RenderComponent* r = GetComponent<RenderComponent>();
-
-	if (r != nullptr)
-	{
-		r->Update(fDeltaTime);
+		component->Update(fDeltaTime);
 	}
 }
 
 void Entity::Destroy()
 {
-
-}
-
-void Entity::Move(float x, float y)
-{
-	TransformComponent* t = GetComponent<TransformComponent>();
-
-	if (t != nullptr)
+	for (IComponent* component : components)
 	{
-		t->SetWorldPosition({ t->GetWorldPosition().x + x, t->GetWorldPosition().y + y });
+		component->Destroy();
 	}
+
 }
 
 void Entity::Draw(sf::RenderWindow& window)
 {
 	RenderComponent* r = GetComponent<RenderComponent>();
 
-	if (r == nullptr)
+	if (r != nullptr)
 	{
-		//Logger::Warning(std::format("Failed to draw {}, Render Component is null", Name));
-		return;
+		r->Draw(window);
 	}
 
-	r->Draw(window);
+#ifdef _USE_IMGUI
+	DynamicColliderComponent* coll = GetComponent<DynamicColliderComponent>();
+
+	if (coll != nullptr)
+	{
+		coll->Draw(window);
+	}
+#endif
 }

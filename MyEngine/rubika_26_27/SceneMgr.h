@@ -9,6 +9,8 @@ class SceneMgr : public IDebugable
 public:
 	void Init();
 	void Shut();
+	void Update(float fDeltaTime);
+	void Draw(sf::RenderWindow& window);
 
 	std::map<std::string, Scene> Scenes;
 	Scene* ActiveScene;
@@ -26,5 +28,10 @@ public:
 	void DeleteScenes();
 
 	virtual void DrawDebug() override;
+
+#ifdef _USE_IMGUI
+	void DisplayColliders(bool enable);
+#endif
+
 };
 

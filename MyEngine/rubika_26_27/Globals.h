@@ -15,6 +15,7 @@ public:
 	void Init();
 	void Shut();
 	void Destroy();
+	void Update(float deltaTime);
 
 	void IncrementFrameCount();
 	unsigned long long GetFrameCount();

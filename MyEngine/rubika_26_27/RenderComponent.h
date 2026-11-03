@@ -3,6 +3,7 @@
 #include <IComponent.h>
 #include <vector>
 #include <IDrawable.h>
+#include <TransformComponent.h>
 
 class RenderComponent : public IComponent
 {
@@ -16,10 +17,12 @@ public:
 	void Draw(sf::RenderWindow& window);
 
 	template <typename C>
-	C* AddDrawable();
+	C* AddDrawable(int x, int y);
 
 	template <typename C>
 	C* GetDrawable();
+
+	TransformComponent* transformComponent;
 
 private:
 	std::vector<IDrawable*> drawables;

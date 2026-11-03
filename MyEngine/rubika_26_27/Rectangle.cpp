@@ -2,7 +2,7 @@
 #include <Logger.h>
 #include <Globals.h>
 
-StaticTile::StaticTile()
+StaticTile::StaticTile(int x, int y) : IDrawable(x, y)
 {
 	
 }
@@ -23,8 +23,6 @@ void StaticTile::Destroy()
 
 bool StaticTile::SetTexture(const TextureData& textureData)
 {
-	rectangle.setSize(sf::Vector2f(100, 100));
-
 	rectangle.setTexture(&textureData.Texture);
 
 	return true;
@@ -34,6 +32,8 @@ bool StaticTile::SetStaticTile(const StaticTileData& staticData)
 {
 	rectangle.setTextureRect({ {staticData.StartX, staticData.StartY}, {staticData.SizeX, staticData.SizeY} });
 	
+	rectangle.setSize(sf::Vector2f(staticData.SizeX, staticData.SizeY));
+
 	rectangle.setOrigin({ rectangle.getSize().x * (staticData.IsRevertedX ? 1 : 0), rectangle.getSize().y * (staticData.IsRevertedY ? 1 : 0) });
 
 	rectangle.setScale({ staticData.IsRevertedX ? -1.f : 1.f, staticData.IsRevertedY ? -1.f : 1.f });

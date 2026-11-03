@@ -9,7 +9,7 @@ class StaticTile : public IDrawable
 public:
 	sf::RectangleShape rectangle;
 
-	StaticTile();
+	StaticTile(int x, int y);
 
 	void Start();
 	void Update(float deltaTime);

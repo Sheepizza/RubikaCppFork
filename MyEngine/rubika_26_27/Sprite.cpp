@@ -2,7 +2,7 @@
 #include <Logger.h>
 #include <Globals.h>
 
-Sprite::Sprite() : sprite(texture)
+Sprite::Sprite(int x, int y) : IDrawable(x, y), sprite(texture)
 {
 	
 }

@@ -11,7 +11,7 @@ public:
 	sf::Sprite sprite;
 	sf::Texture texture;
 
-	Sprite();
+	Sprite(int x, int y);
 
 	void Start();
 	void Update(float deltaTime);

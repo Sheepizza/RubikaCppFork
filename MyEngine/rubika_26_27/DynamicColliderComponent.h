@@ -1,8 +1,10 @@
 #pragma once
 
 #include <IComponent.h>
+#include <TransformComponent.h>
 
 #include <SfML/Graphics/Rect.hpp>
+#include <SFML/Graphics.hpp>
 #include <functional>
 
 enum class OnCollisionChoice
@@ -14,6 +16,15 @@ enum class OnCollisionChoice
 class DynamicColliderComponent : public IComponent
 {
 public:
+	sf::FloatRect hitbox;
+	sf::Vector2f hitboxOffset;
+
+	bool canCollide = true;
+
+	TransformComponent* transformComponent;
+
+	std::vector<std::function<OnCollisionChoice(const Entity*)>> callbacks;
+
 	DynamicColliderComponent(Entity& entity);
 	~DynamicColliderComponent();
 
@@ -30,4 +41,14 @@ public:
 	const sf::FloatRect& GetHitbox() const;
 
 	void SetOnCollisionCallback(std::function<OnCollisionChoice(const Entity*)> callback);
+
+	void InvokeCallbacks();
+
+#ifdef _USE_IMGUI
+	sf::RectangleShape debugHitbox;
+	bool canDrawDebug = false;
+	
+	void DisplayColliders(bool enable);
+	void Draw(sf::RenderWindow& window);
+#endif
 };

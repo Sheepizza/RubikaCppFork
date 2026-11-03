@@ -4,11 +4,11 @@
 #include <format>
 
 template<typename C>
-inline C* RenderComponent::AddDrawable()
+inline C* RenderComponent::AddDrawable(int x, int y)
 {
 	static_assert(std::is_base_of<IDrawable, C>::value, "Drawable must be a IDrawable");
 
-	C* c = new C();
+	C* c = new C(x, y);
 	drawables.push_back(c);
 	return c;
 }
