@@ -21,26 +21,18 @@ void CreateInputs(Entity* e)
 {
     TransformComponent* t = e->AddComponent<TransformComponent>();
 
-    gData.InputMgr->CreateInputAction("Up");
-    gData.InputMgr->BindAction("Up", sf::Keyboard::Key::Z);
     auto up = [e](float input) {e->Move(0, -0.2f * input); };
     std::function<void(float)> MoveUp = up;
     gData.InputMgr->RegisterCallback("Up", "Move Up", MoveUp, e);
 
-    gData.InputMgr->CreateInputAction("Down");
-    gData.InputMgr->BindAction("Down", sf::Keyboard::Key::S);
     auto down = [e](float input) {e->Move(0, 0.2f * input); };
     std::function<void(float)> MoveDown = down;
     gData.InputMgr->RegisterCallback("Down", "Move Down", MoveDown, e);
 
-    gData.InputMgr->CreateInputAction("Right");
-    gData.InputMgr->BindAction("Right", sf::Keyboard::Key::D);
     auto right = [e](float input) {e->Move(0.2f * input, 0); };
     std::function<void(float)> MoveRight = right;
     gData.InputMgr->RegisterCallback("Right", "Move Right", MoveRight, e);
 
-    gData.InputMgr->CreateInputAction("Left");
-    gData.InputMgr->BindAction("Left", sf::Keyboard::Key::Q);
     auto left = [e](float input) {e->Move(-0.2f * input, 0); };
     std::function<void(float)> MoveLeft = left;
     gData.InputMgr->RegisterCallback("Left", "Move Left", MoveLeft, e);
@@ -63,10 +55,6 @@ void CreateScene()
     Sprite* sprite = r->AddDrawable<Sprite>();
 
     sprite->SetTextureAndSprite("IsaacSprite", "Body_Vertical");
-
-    /*StaticTile* staticTile = r->AddDrawable<StaticTile>();
-
-    staticTile->SetTextureAndStaticTile("Basement", "Corner_Top_Left");*/
 
     CreateInputs(e);
 }

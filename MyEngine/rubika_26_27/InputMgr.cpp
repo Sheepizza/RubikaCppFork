@@ -2,6 +2,7 @@
 #include <Globals.h>
 #include <format>
 #include <Logger.h>
+#include <fstream>
 
 #ifdef _USE_IMGUI
 #include <Imgui/imgui.h>
@@ -10,6 +11,7 @@
 void InputMgr::Init()
 {
 	gData.DebugMgr->RegisterDebugableWindow("InputManager", this);
+	SetInputMapping("../Ressources/InputMapping.csv");
 }
 
 void InputMgr::Shut()
@@ -199,4 +201,44 @@ void InputMgr::DrawDebug()
 
 	id++;
 #endif
+}
+
+void InputMgr::SetInputMapping(const std::string& path)
+{
+	std::ifstream file(path);
+
+	if (!file.is_open())
+	{
+		Logger::Warning("Failed to open Input Mapping.");
+		return;
+	}
+
+	std::string line;
+	std::string cell;
+
+	std::getline(file, line);
+
+	std::stringstream lineStream(line);
+
+	while (std::getline(lineStream, cell, ','))
+	{
+		CreateInputAction(cell);
+	}
+
+	while (std::getline(file, line))
+	{
+		std::stringstream lineStream(line);
+
+		std::getline(lineStream, cell, ',');
+
+		std::getline(lineStream, cell, ',');
+		
+		sf::Keyboard::Key key = static_cast<sf::Keyboard::Key>(std::stoi(cell));
+
+		while (std::getline(lineStream, cell, ','))
+		{
+			gData.InputMgr->BindAction(cell, key);
+		}
+	}
+	file.close();
 }

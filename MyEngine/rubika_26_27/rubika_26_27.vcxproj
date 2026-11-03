@@ -227,6 +227,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README_november.md" />
+    <None Include="..\Ressources\InputMapping.csv" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

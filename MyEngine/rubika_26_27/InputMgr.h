@@ -26,5 +26,7 @@ class InputMgr : public IDebugable
 private:
 	std::map<std::size_t, InputAction> InputActions;
 	std::map<sf::Keyboard::Key, std::vector<std::size_t>> KeyBindings;
+
+	void SetInputMapping(const std::string& path);
 };
 

@@ -99,6 +99,9 @@
     <None Include="..\README_november.md">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\Ressources\InputMapping.csv">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h">
