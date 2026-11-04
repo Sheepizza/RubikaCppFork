@@ -20,6 +20,14 @@ void Player::Start()
 
 	coll->SetHitboxSize({ 28, 40 });
 
+	std::function<OnCollisionChoice(Entity*)> callback = [this, coll](Entity* e) -> OnCollisionChoice
+		{
+			AdjustPosition(e); 
+			return coll->GetCollisionType();
+		};
+
+	coll->SetOnCollisionCallback(callback);
+
 	t->SetWorldPosition({ 100,100 });
 
 	RenderComponent* r = AddComponent<RenderComponent>();
@@ -49,8 +57,16 @@ void Player::Move(float x, float y)
 {
 	TransformComponent* t = GetComponent<TransformComponent>();
 
+	sf::Vector2f direction{ x,y };
+
+	sf::Vector2f force = direction.normalized();
+
+	force *= 0.1f;
+
+	force += t->GetWorldPosition();
+
 	if (t != nullptr)
 	{
-		t->SetWorldPosition({ t->GetWorldPosition().x + x, t->GetWorldPosition().y + y });
+		t->SetWorldPosition({ force });
 	}
 }

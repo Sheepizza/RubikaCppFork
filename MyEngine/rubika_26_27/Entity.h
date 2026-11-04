@@ -24,6 +24,7 @@ public:
 	virtual void Update(float fDeltaTime);
 	virtual void Destroy();
 
+	void AdjustPosition(Entity* e);
 	/*
 	 * This function will be removed later, when the rendering system will be more robust. But for now, we need it here.
 	 * Function that will be called each frame to draw the entity

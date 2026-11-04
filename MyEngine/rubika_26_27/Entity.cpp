@@ -45,6 +45,53 @@ void Entity::Destroy()
 
 }
 
+void Entity::AdjustPosition(Entity* e)
+{
+	TransformComponent* t = GetComponent<TransformComponent>();
+
+	DynamicColliderComponent* coll = GetComponent<DynamicColliderComponent>();
+	DynamicColliderComponent* otherColl = e->GetComponent<DynamicColliderComponent>();
+
+	const sf::FloatRect* hitbox = &coll->GetHitbox();
+	const sf::FloatRect* otherHitbox = &otherColl->GetHitbox();
+
+	float distanceX = hitbox->getCenter().x - otherHitbox->getCenter().x;
+	float distanceY = hitbox->getCenter().y - otherHitbox->getCenter().y;
+
+	sf::Vector2f newPos;
+	
+	sf::FloatRect overlap = hitbox->findIntersection(*otherHitbox).value();
+
+	if (std::abs(overlap.size.x) < std::abs(overlap.size.y))
+	{
+		if (distanceX < 0)
+		{
+			newPos.x = otherHitbox->position.x - hitbox->size.x;
+			newPos.y = t->GetWorldPosition().y;
+		}
+		else
+		{
+			newPos.x = otherHitbox->position.x + otherHitbox->size.x;
+			newPos.y = t->GetWorldPosition().y;
+		}
+	}
+	else
+	{
+		if (distanceY < 0)
+		{
+			newPos.y = otherHitbox->position.y - hitbox->size.y;
+			newPos.x = t->GetWorldPosition().x;
+		}
+		else
+		{
+			newPos.y = otherHitbox->position.y + otherHitbox->size.y;
+			newPos.x = t->GetWorldPosition().x;
+		}
+	}
+
+	t->SetWorldPosition(newPos);
+}
+
 void Entity::Draw(sf::RenderWindow& window)
 {
 	RenderComponent* r = GetComponent<RenderComponent>();

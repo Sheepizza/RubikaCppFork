@@ -22,13 +22,13 @@
 
 void CreateInputs(Player* player)
 {
-    gData.InputMgr->RegisterCallback("Up", "Move Up", [player](float input) {player->Move(0, -0.1f * input); }, player);
+    gData.InputMgr->RegisterCallback("Up", "Move Up", [player](float input) {player->Move(0, -input); }, player);
 
-    gData.InputMgr->RegisterCallback("Down", "Move Down", [player](float input) {player->Move(0, 0.1f * input); }, player);
+    gData.InputMgr->RegisterCallback("Down", "Move Down", [player](float input) {player->Move(0, input); }, player);
 
-    gData.InputMgr->RegisterCallback("Right", "Move Right", [player](float input) {player->Move(0.1f * input, 0); }, player);
+    gData.InputMgr->RegisterCallback("Right", "Move Right", [player](float input) {player->Move(input, 0); }, player);
 
-    gData.InputMgr->RegisterCallback("Left", "Move Left", [player](float input) {player->Move(-0.1f * input, 0); }, player);
+    gData.InputMgr->RegisterCallback("Left", "Move Left", [player](float input) {player->Move(-input, 0); }, player);
 
     gData.InputMgr->RegisterCallback("DisplayColliders", "DisplayColliders", [](float) {gData.SceneMgr->DisplayColliders(true); }, player);
 
@@ -40,7 +40,7 @@ void CreateScene()
     Scene mainScene = Scene("MainScene");
 
     int length = 11;
-	int height = 6;
+    int height = 6;
 
 #pragma region Enviro
 
@@ -110,6 +110,14 @@ void CreateScene()
     mainScene.AddEntity(new Obstacle({ 62, 201 }, "Obstacle2"));
 
     mainScene.AddEntity(new Obstacle({ 553, 150 }, "Obstacle2"));
+
+    mainScene.AddEntity(new Obstacle({ 0, 0 }, { 676, 52 }, "Wall_Up"));
+
+    mainScene.AddEntity(new Obstacle({ 624, 0 }, { 52, 416 }, "Wall_Right"));
+
+    mainScene.AddEntity(new Obstacle({ 0, 0 }, { 52, 416 }, "Wall_Left"));
+
+    mainScene.AddEntity(new Obstacle({ 0, 364 }, { 676, 52 }, "Wall_Down"));
 
     gData.SceneMgr->AddNewScene(mainScene);
 

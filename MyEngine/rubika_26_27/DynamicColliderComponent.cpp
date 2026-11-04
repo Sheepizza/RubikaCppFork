@@ -65,21 +65,31 @@ bool DynamicColliderComponent::AreCollisionsEnabled() const
 	return canCollide;
 }
 
+void DynamicColliderComponent::SetCollisionType(OnCollisionChoice type)
+{
+	collisionType = type;
+}
+
+OnCollisionChoice DynamicColliderComponent::GetCollisionType()
+{
+	return collisionType;
+}
+
 const sf::FloatRect& DynamicColliderComponent::GetHitbox() const
 {
 	return hitbox;
 }
 
-void DynamicColliderComponent::SetOnCollisionCallback(std::function<OnCollisionChoice(const Entity*)> callback)
+void DynamicColliderComponent::SetOnCollisionCallback(std::function<OnCollisionChoice(Entity*)> callback)
 {
 	callbacks.push_back(callback);
 }
 
-void DynamicColliderComponent::InvokeCallbacks()
+void DynamicColliderComponent::InvokeCallbacks(Entity* other)
 {
 	for (auto callback : callbacks)
 	{
-		callback(&GetEntity());
+		callback(other);
 	}
 }
 

@@ -23,7 +23,9 @@ public:
 
 	TransformComponent* transformComponent;
 
-	std::vector<std::function<OnCollisionChoice(const Entity*)>> callbacks;
+	std::vector<std::function<OnCollisionChoice(Entity*)>> callbacks;
+
+	OnCollisionChoice collisionType = OnCollisionChoice::Ignore;
 
 	DynamicColliderComponent(Entity& entity);
 	~DynamicColliderComponent();
@@ -38,11 +40,14 @@ public:
 	void EnableCollision(bool bEnable);
 	bool AreCollisionsEnabled() const;
 
+	void SetCollisionType(OnCollisionChoice type);
+	OnCollisionChoice GetCollisionType();
+
 	const sf::FloatRect& GetHitbox() const;
 
-	void SetOnCollisionCallback(std::function<OnCollisionChoice(const Entity*)> callback);
+	void SetOnCollisionCallback(std::function<OnCollisionChoice(Entity*)> callback);
 
-	void InvokeCallbacks();
+	void InvokeCallbacks(Entity* other);
 
 #ifdef _USE_IMGUI
 	sf::RectangleShape debugHitbox;

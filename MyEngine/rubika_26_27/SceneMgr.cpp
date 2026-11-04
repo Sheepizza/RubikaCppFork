@@ -28,6 +28,7 @@ void SceneMgr::Update(float fDeltaTime)
 	if (ActiveScene != nullptr)
 	{
 		ActiveScene->Update(fDeltaTime);
+		CheckCollisions();
 	}
 }
 
@@ -360,6 +361,46 @@ void SceneMgr::SetTexture(Entity& entity, std::string txtName, std::string dataN
 
 	Logger::Warning(std::format("There is no Drawable in {}.", entity.Name));
 	return;
+}
+
+void SceneMgr::CheckCollisions()
+{
+	for (Entity* e : ActiveScene->Entities)
+	{
+		DynamicColliderComponent* coll = e->GetComponent<DynamicColliderComponent>();
+
+		if (coll == nullptr)
+		{
+			continue;
+		}
+
+		if (!coll->AreCollisionsEnabled())
+		{
+			continue;
+		}
+
+		for (Entity* e2 : ActiveScene->Entities)
+		{
+			DynamicColliderComponent* coll2 = e2->GetComponent<DynamicColliderComponent>();
+
+			if (coll2 == nullptr || coll2 == coll)
+			{
+				continue;
+			}
+
+			if (!coll2->AreCollisionsEnabled())
+			{
+				continue;
+			}
+
+			if (coll->GetHitbox().findIntersection(coll2->GetHitbox()))
+			{
+				coll->InvokeCallbacks(e2);
+				coll2->InvokeCallbacks(e);
+			}
+		}
+
+	}
 }
 
 void SceneMgr::DeleteScenes()
