@@ -1,6 +1,7 @@
 #include "RenderComponent.h"
 #include <Entity.h>
 #include <TransformComponent.h>
+#include <Profiler.h>
 
 RenderComponent::RenderComponent(Entity& entity) : IComponent(entity)
 {
@@ -28,6 +29,7 @@ void RenderComponent::Start()
 
 void RenderComponent::Update(float fDeltaTime)
 {
+	PROFILER_EVENT_BEGIN(PROFILER_COLOR_ORANGE, "RenderUpdate");
 	if (transformComponent == nullptr)
 	{
 		transformComponent = GetEntity().GetComponent<TransformComponent>();
@@ -41,6 +43,7 @@ void RenderComponent::Update(float fDeltaTime)
 		}
 		drawable->Update(fDeltaTime);
 	}
+	PROFILER_EVENT_END();
 }
 
 void RenderComponent::Destroy()

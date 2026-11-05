@@ -1,5 +1,6 @@
 #include "DynamicColliderComponent.h"
 #include <Entity.h>
+#include <Profiler.h>
 
 DynamicColliderComponent::DynamicColliderComponent(Entity& entity) : IComponent(entity)
 {
@@ -22,6 +23,7 @@ void DynamicColliderComponent::Start()
 
 void DynamicColliderComponent::Update(float fDeltaTime)
 {
+	PROFILER_EVENT_BEGIN(PROFILER_COLOR_CYAN, "ColliderUpdate");
 	if (transformComponent == nullptr)
 	{
 		transformComponent = GetEntity().GetComponent<TransformComponent>();
@@ -34,6 +36,7 @@ void DynamicColliderComponent::Update(float fDeltaTime)
 #ifdef _USE_IMGUI
 		debugHitbox.setPosition(transformComponent->GetWorldPosition() + hitboxOffset);
 #endif
+		PROFILER_EVENT_END();
 	}
 }
 
@@ -91,6 +94,16 @@ void DynamicColliderComponent::InvokeCallbacks(Entity* other)
 	{
 		callback(other);
 	}
+}
+
+void DynamicColliderComponent::SetCollisionFilterMask(uint8_t filter)
+{
+	filterMask = filter;
+}
+
+void DynamicColliderComponent::SetCollisionMode(CollisionMode mode)
+{
+	collisionMode = mode;
 }
 
 void DynamicColliderComponent::DisplayColliders(bool enable)

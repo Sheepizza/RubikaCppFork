@@ -25,6 +25,7 @@ void Entity::Start()
 	for (IComponent* component : components)
 	{
 		component->Start();
+		
 	}
 }
 
@@ -109,4 +110,32 @@ void Entity::Draw(sf::RenderWindow& window)
 		coll->Draw(window);
 	}
 #endif
+}
+
+void Entity::AddTag(uint8_t tag)
+{
+	tags |= tag;
+}
+
+void Entity::Remove(uint8_t tag)
+{
+	tags &= ~tag;
+}
+
+bool Entity::HasTag(uint8_t tag)
+{
+	uint8_t tempTags = tags;
+
+	tempTags &= tag;
+
+	return tempTags == tag;
+}
+
+bool Entity::HasPartialTag(uint8_t tag)
+{
+	uint8_t tempTags = tags;
+
+	tempTags &= tag;
+
+	return tempTags > 0;
 }

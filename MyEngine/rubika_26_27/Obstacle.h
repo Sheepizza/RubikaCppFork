@@ -8,6 +8,8 @@ public:
 	Obstacle(sf::Vector2f position, std::string name = "Obstacle");
 	Obstacle(sf::Vector2f position, sf::Vector2f collSize, std::string name = "Obstacle");
 
+	void Init();
+
 	~Obstacle();
 
 	virtual void Start() override;

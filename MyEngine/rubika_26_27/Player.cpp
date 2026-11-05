@@ -3,16 +3,9 @@
 #include <DynamicColliderComponent.h>
 #include <RenderComponent.h>
 #include <Sprite.h>
+#include <Profiler.h>
 
 Player::Player(std::string name) : Entity(name)
-{
-}
-
-Player::~Player()
-{
-}
-
-void Player::Start()
 {
 	TransformComponent* t = AddComponent<TransformComponent>();
 
@@ -22,7 +15,7 @@ void Player::Start()
 
 	std::function<OnCollisionChoice(Entity*)> callback = [this, coll](Entity* e) -> OnCollisionChoice
 		{
-			AdjustPosition(e); 
+			AdjustPosition(e);
 			return coll->GetCollisionType();
 		};
 
@@ -40,12 +33,27 @@ void Player::Start()
 
 	head->SetTextureAndSprite("IsaacSprite", "Head_Down");
 
+	AddTag(ENTITY_TAG_DYNAMIC | ENTITY_TAG_PLAYER);
+
+	coll->SetCollisionMode(CollisionMode::Partial);
+
+	coll->SetCollisionFilterMask(ENTITY_TAG_STATIC);
+}
+
+Player::~Player()
+{
+}
+
+void Player::Start()
+{
 	Entity::Start();
 }
 
 void Player::Update(float fDeltaTime)
 {
+	PROFILER_EVENT_BEGIN(PROFILER_COLOR_PINK, "PlayerUpdate");
 	Entity::Update(fDeltaTime);
+	PROFILER_EVENT_END();
 }
 
 void Player::Destroy()

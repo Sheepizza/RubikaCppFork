@@ -13,6 +13,12 @@ enum class OnCollisionChoice
 	Block,
 };
 
+enum CollisionMode
+{
+	Partial,
+	Complete,
+};
+
 class DynamicColliderComponent : public IComponent
 {
 public:
@@ -26,6 +32,8 @@ public:
 	std::vector<std::function<OnCollisionChoice(Entity*)>> callbacks;
 
 	OnCollisionChoice collisionType = OnCollisionChoice::Ignore;
+
+	CollisionMode collisionMode;
 
 	DynamicColliderComponent(Entity& entity);
 	~DynamicColliderComponent();
@@ -48,6 +56,12 @@ public:
 	void SetOnCollisionCallback(std::function<OnCollisionChoice(Entity*)> callback);
 
 	void InvokeCallbacks(Entity* other);
+
+	void SetCollisionFilterMask(uint8_t filter);
+
+	void SetCollisionMode(CollisionMode mode);
+
+	uint8_t filterMask;
 
 #ifdef _USE_IMGUI
 	sf::RectangleShape debugHitbox;

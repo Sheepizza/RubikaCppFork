@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "Entity.h"
+#include <GridEntityCache.h>
 
 namespace sf
 {
@@ -15,6 +16,8 @@ public:
 	std::vector<Entity*> Entities;
 	std::string Name;
 
+	GridEntityCache DynamicGridCache;
+	GridEntityCache StaticGridCache;
 
 	Scene(const std::string& name);
 	~Scene();
@@ -30,6 +33,7 @@ public:
 
 	std::string GetEntities();
 
+	void CheckCollisions();
 	/*
 	 * This function will be removed later, when the rendering system will be more robust. But for now, we need it here.
 	 * Function that will be called each frame to draw the entity

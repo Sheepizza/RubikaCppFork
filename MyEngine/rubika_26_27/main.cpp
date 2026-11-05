@@ -105,7 +105,10 @@ void CreateScene()
 
     mainScene.AddEntity(player);
 
-    mainScene.AddEntity(new Obstacle({ 407, 73 }, "Obstacle1"));
+    for (size_t i = 0; i < 1; i++)
+    {
+        mainScene.AddEntity(new Obstacle({ 407, 73 }, "Obstacle1"));
+    }
 
     mainScene.AddEntity(new Obstacle({ 62, 201 }, "Obstacle2"));
 

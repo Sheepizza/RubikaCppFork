@@ -7,21 +7,21 @@
 Obstacle::Obstacle(sf::Vector2f position, std::string name) : Entity(name)
 {
 	basePosition = position;
+
+	Init();
 }
 
-Obstacle::Obstacle(sf::Vector2f position, sf::Vector2f collSize, std::string name)
+Obstacle::Obstacle(sf::Vector2f position, sf::Vector2f collSize, std::string name) : Entity(name)
 {
 	basePosition = position;
 	baseCollSize = collSize;
 
 	isVisible = false;
+
+	Init();
 }
 
-Obstacle::~Obstacle()
-{
-}
-
-void Obstacle::Start()
+void Obstacle::Init()
 {
 	TransformComponent* t = AddComponent<TransformComponent>();
 	RenderComponent* r = AddComponent<RenderComponent>();
@@ -31,7 +31,7 @@ void Obstacle::Start()
 	StaticTile* tile = r->AddDrawable<StaticTile>(0, 0);
 
 	if (isVisible)
-	tile->SetTextureAndStaticTile("Basement", "Corner_Top_Left");
+		tile->SetTextureAndStaticTile("Basement", "Corner_Top_Left");
 
 	DynamicColliderComponent* coll = AddComponent<DynamicColliderComponent>();
 
@@ -46,6 +46,16 @@ void Obstacle::Start()
 
 	coll->SetCollisionType(OnCollisionChoice::Block);
 
+	AddTag(ENTITY_TAG_STATIC);
+
+}
+
+Obstacle::~Obstacle()
+{
+}
+
+void Obstacle::Start()
+{
 	Entity::Start();
 }
 

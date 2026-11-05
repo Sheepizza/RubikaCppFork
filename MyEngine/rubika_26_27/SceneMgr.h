@@ -25,8 +25,6 @@ public:
 	void AddStaticTile(Entity& entity);
 	void SetTexture(Entity& entity, std::string txtName, std::string dataName);
 
-	void CheckCollisions();
-
 	void DeleteScenes();
 
 	virtual void DrawDebug() override;
