@@ -105,6 +105,9 @@
     <ClCompile Include="GridEntityCache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="QuadTreeEntityCache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README_november.md">
@@ -221,6 +224,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GridEntityCache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadTreeEntityCache.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -221,6 +221,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="QuadTreeEntityCache.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -262,6 +263,7 @@
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Profiler.h" />
+    <ClInclude Include="QuadTreeEntityCache.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="RenderComponent.hxx" />

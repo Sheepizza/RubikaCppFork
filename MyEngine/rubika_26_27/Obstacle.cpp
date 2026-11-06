@@ -61,7 +61,7 @@ void Obstacle::Start()
 
 void Obstacle::Update(float fDeltaTime)
 {
-	Entity::Update(fDeltaTime);
+	//Entity::Update(fDeltaTime);
 }
 
 void Obstacle::Destroy()

@@ -23,6 +23,14 @@ void RenderComponent::Start()
 
 	for (IDrawable* drawable : drawables)
 	{
+		if (transformComponent != nullptr)
+		{
+			drawable->SetWorldTransform(transformComponent->GetMatrix());
+		}
+	}
+
+	for (IDrawable* drawable : drawables)
+	{
 		drawable->Start();
 	}
 }

@@ -4,6 +4,12 @@
 
 DynamicColliderComponent::DynamicColliderComponent(Entity& entity) : IComponent(entity)
 {
+	transformComponent = entity.GetComponent<TransformComponent>();
+
+	if (transformComponent != nullptr)
+	{
+		hitbox.position = transformComponent->GetWorldPosition() + hitboxOffset;
+	}
 }
 
 DynamicColliderComponent::~DynamicColliderComponent()
@@ -12,7 +18,10 @@ DynamicColliderComponent::~DynamicColliderComponent()
 
 void DynamicColliderComponent::Start()
 {
-	transformComponent = GetEntity().GetComponent<TransformComponent>();
+	if (transformComponent == nullptr)
+	{
+		transformComponent = GetEntity().GetComponent<TransformComponent>();
+	}
 
 #ifdef _USE_IMGUI
 	debugHitbox.setOutlineColor(sf::Color::Green);

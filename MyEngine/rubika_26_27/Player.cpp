@@ -4,6 +4,8 @@
 #include <RenderComponent.h>
 #include <Sprite.h>
 #include <Profiler.h>
+#include <Globals.h>
+#include <SceneMgr.h>
 
 Player::Player(std::string name) : Entity(name)
 {
@@ -63,6 +65,8 @@ void Player::Destroy()
 
 void Player::Move(float x, float y)
 {
+	gData.SceneMgr->ActiveScene->DynamicGridCache.RemoveEntity(dynamic_cast<Entity*>(this));
+
 	TransformComponent* t = GetComponent<TransformComponent>();
 
 	sf::Vector2f direction{ x,y };
@@ -77,4 +81,6 @@ void Player::Move(float x, float y)
 	{
 		t->SetWorldPosition({ force });
 	}
+
+	gData.SceneMgr->ActiveScene->DynamicGridCache.AddEntity(dynamic_cast<Entity*>(this));
 }

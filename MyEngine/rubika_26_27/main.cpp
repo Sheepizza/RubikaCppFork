@@ -110,6 +110,8 @@ void CreateScene()
         mainScene.AddEntity(new Obstacle({ 407, 73 }, "Obstacle1"));
     }
 
+    mainScene.AddEntity(new Obstacle({ 100, 100 }, "Obstacle2"));
+
     mainScene.AddEntity(new Obstacle({ 62, 201 }, "Obstacle2"));
 
     mainScene.AddEntity(new Obstacle({ 553, 150 }, "Obstacle2"));
